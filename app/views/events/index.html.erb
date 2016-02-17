@@ -1,0 +1,108 @@
+<div class="container">
+	<div class="col-md-4 col-md-offset-8">
+		<a href="/users/<%=@user.id%>">Edit My Profile</a> | 
+		<a href="/sessions/new">Logout</a>
+	</div>
+	<h2>Welcome <%= @user.f_name %></h2>
+	<h3>Here are some of the events in your state:</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Date</th>
+				<th>Location</th>
+				<th>Host</th>
+				<th>Action/Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @events.each do |event|%>
+				
+			<tr>
+				<td><a href="/events/<%= event.id %>"><%= event.name %></a></td>
+				<td><%= event.date %></td>
+				<td><%= event.city %></td>
+				<td><%= event.user.f_name %></td>
+				<td>
+					<% if event.user.id == @user.id %>
+						<a href="/events/<%=event.id%>/edit">Edit</a> | <a href="/events/<%=event.id%>" data-method="delete">Delete</a>
+					<% else %>	
+						<% if event.user_joined.include?(@user)%>
+								Joining | <a href="/user_events/<%=@user.id%>/<%=event.id%>" data-method="delete">Cancel</a>
+						<% else %>
+								<a href="/user_events/<%=@user.id%>/<%=event.id%>" data-method="post">Join</a>
+						<% end %>
+					<% end %>
+				</td>
+			</tr>
+			<% end %>
+
+		</tbody>
+	</table>
+
+	<h3>Here are some of the events in other states:</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Date</th>
+				<th>Location</th>
+				<th>State</th>
+				<th>Host</th>
+				<th>Action/Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @others.each do |other|%>
+			<tr>
+				<td><a href="/events/<%= other.id %>"><%= other.name %></a></td>
+				<td><%= other.date %></td>
+				<td><%= other.city %></td>
+				<td><%= other.state %></td>
+				<td><%= other.user.f_name %></td>
+				<td>
+					<% if other.user.id == @user.id %>
+						<a href="/events/<%=other.id%>/edit">Edit</a> | <a href="/events/<%=other.id%>" data-method="delete">Delete</a>
+					<% else %>	
+						<% if other.user_joined.include?(@user)%>
+								Joining | <a href="">Cancel</a>
+						<% else %>
+								<a href="/user_events/<%=@user.id%>/<%=other.id%>">Join</a>
+						<% end %>
+					<% end %>
+				</td>
+			</tr>
+			<% end %>
+		</tbody>
+
+	</table>
+	<h3>Add Event</h3>
+	<%= flash[:incorrect]%>
+	<%= flash[:error]%>
+	<form class="col-md-4" action="/events/create" method="post">
+		<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+		<input type="hidden" name="user_id" value="<%= @user.id %>">
+		<fieldset class="form-group">
+			<label for="formGroupNameInput">Name</label>
+			<input type="text" class="form-control" id="formGroupNameInput" name="name">
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="formGroupLocationInput">Location</label>
+			<input type="text" class="form-control" id="formGroupLocationInput" name="city">	
+		</fieldset>
+		<fieldset class="form-group">
+			<select class="form-control" name="state">
+				<option>NY</option>
+				<option>CA</option>
+				<option>WA</option>
+			</select>
+		</fieldset>
+		<fieldset class="form-group">
+			<label for="formGroupDateInput">Date</label>
+			<input type="date" class="form-control" id="formGroupDateInput" name="date">
+		</fieldset>
+		<fieldset class="form-group">
+			<input type="submit" value="Add Event" class="form-control">
+		</fieldset>
+	</form>
+</div>

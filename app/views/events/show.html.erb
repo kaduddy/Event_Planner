@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="header col-md-offset-8">
+		<a href="/events/index">Events Dashboard</a> | <a href="/sessions/destroy">Logout</a>
+	</div>
+	<div class="col-md-6">
+		<h3><%= @event.name %></h3>
+		<h4>Host: <%= @event.user.f_name %></h4>
+		<h4>Date: <%= @event.date %></h4>
+		<h4>Location: <%= @event.city %>, <%= @event.state %></h4>
+		<h4>People who are joining the event: <%= @event.user_joined.length %></h4>
+	</div>
+
+	<div class="middle-border"></div>
+		<div>
+			<% @discussions.each do |comment|%>
+			<p><%=comment.user.f_name%>: <%=comment.text%></p>
+
+			<% end %>
+		</div>
+		<div class="form-box">
+			<form class="col-md-4" action="/discussions/create" method="post">
+				<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token %>">
+				<input type="hidden" name="discussion[event_id]" value="<%= @event.id %>">
+				<input type="hidden" name="discussion[user_id]" value="<%= @user.id %>">
+				<fieldset class="form-group">
+					<label for="formGroupCommentInput">Add Commment</label>
+					<input type="text" class="form-control" id="formGroupCommentInput" name="discussion[text]">
+				</fieldset>
+				<fieldset class="form-group">
+					<input type="submit" value="Submit Comments" class="form-control">
+				</fieldset>
+			</form>
+		</div>
+
+</div>

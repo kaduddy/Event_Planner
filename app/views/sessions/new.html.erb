@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+</head>
+<body>
+	<div class="container">
+		<div class="form-box">
+			<form class="col-md-4" action="/users/create" method="post">
+				<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+				<div class="form-top">
+					<h3>Register</h3>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control input" placeholder="First Name" name="user[f_name]">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control input" placeholder="Last Name" name="user[l_name]">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control input" placeholder="Email" name="user[email]">
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control input" placeholder="Location" name="user[city]">
+				</div>
+				<div class="form-group">
+					<select class="form-control input" name="user[state]">
+						<option>CA</option>
+						<option>NY</option>
+						<option>WA</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control input" placeholder="Password" name="user[password]">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control input" placeholder="Confirm Password" name="user[password_confirmation]">
+				</div>
+				<div class="form-group">
+					<input type="submit" class="form-control input" value="Register">
+				</div>
+			</form>
+			<%= flash[:invalid] %>
+			<%= flash[:errors] %>
+		</div>
+
+		<div class="col-sm-1 middle-border"></div>
+		<div class="col-sm-1"></div>
+
+		<div class="form-box">
+			<form class="col-md-4" action="/sessions/create" method="post">
+				<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+				<div class="form-top">
+					<h3>Login</h3>
+				</div>
+				<div class="form-group">
+					<input type="text" class="form-control input" placeholder="Email" name="email">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control input" placeholder="Password" name="password">
+				</div>
+				<div class="form-group">
+					<input type="submit" class="form-control input" value="Login">
+				</div>
+			</form>
+			<%= flash[:error]%>
+		</div>
+	</div>
+</body>
+</html>
